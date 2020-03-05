@@ -61,9 +61,9 @@ const button = new Button({
 const button2 = new Button({
   text: "Click Me!"
 });
-const button3 = new JumpingButton({
-  text: "Catch Me!"
-});
+// const button3 = new JumpingButton({
+//   text: "Catch Me!"
+// });
 
 
 class Icon {
@@ -74,9 +74,12 @@ class Icon {
     }) {
         //src,width,height
         this.icon = this.createIcon();
+        this.toggled = false;
         this.icon.src = options.src;
         this.styles(options)
-        this.fadeIn()
+        setTimeout(() =>{ 
+          this.fadeIn()
+        }, 200)
     }
 
     createIcon() {
@@ -85,8 +88,10 @@ class Icon {
     }
     styles(options) {
         this.icon.style.margin = '10px';
-        this.icon.style.width = `${options.width}px`;
-        this.icon.style.heidht = `${options.height}px`;
+        this.icon.style.opacity = '0';
+        this.icon.style.transition = 'opacity .5s ease-in-out'
+        this.icon.style.width = `${options.width || 50}px`;
+        this.icon.style.heidht = `${options.height || 50}px`;
         if(options.parent && options.parent instanceof Node){
             options.parent.append(this.icon)
         } else {
@@ -95,8 +100,26 @@ class Icon {
     }
 
     fadeIn() {
-
+      this.icon.style.opacity = '1';
     }
+}
+
+class ToggleIcon extends Icon {
+  constructor(options){
+    super(options)
+    this.options = options;
+    this.styles(options)
+    this.icon.addEventListener('click', this.toggleIcon.bind(this))
+  }
+  styles(options){
+    this.icon.style.cursor = 'pointer';
+    super.styles(options)
+  }
+  toggleIcon(event){
+    this.icon.src = this.toggled ? 
+    this.options.srcAfter : this.options.src
+    this.toggled = !this.toggled
+  }
 }
 
 const icon1 = new Icon ({
@@ -105,3 +128,9 @@ const icon1 = new Icon ({
     src: './img/lock.svg',
     parent: 'body'
 })
+const toggleIcon = new ToggleIcon({ 
+  src: './img/phone.svg',
+  srcAfter: './img/pin.png',
+  parent : 'body'
+})
+
