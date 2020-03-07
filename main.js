@@ -44,8 +44,8 @@ class JumpingButton extends Button {
     //   const newLeft = Math.random()
     //     .toString()
     //     .substring(2, 5);
-    const newTop = _.random(0, window.innerHeight)
-    const newLeft = _.random(0, window.innerWidth)
+    const newTop = _.random(0, window.visualViewport.height)
+    const newLeft = _.random(0, window.visualViewport.width)
       this.newButton.style.top = newTop + "px";
       this.newButton.style.left = newLeft + "px";
     }, 1500);
@@ -61,9 +61,9 @@ const button = new Button({
 const button2 = new Button({
   text: "Click Me!"
 });
-// const button3 = new JumpingButton({
-//   text: "Catch Me!"
-// });
+const button3 = new JumpingButton({
+  text: "Catch Me!"
+});
 
 
 class Icon {
